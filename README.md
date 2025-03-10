@@ -14,9 +14,6 @@ Welcome to **Maqra**, an open-source Quran reading and listening platform design
 
 ---
 
-## **Live Demo**
-Check out the live demo of Maqra: [Maqra Live Demo](#) *(Insert your live demo link here)*
-
 ---
 
 ## **Technologies Used**
