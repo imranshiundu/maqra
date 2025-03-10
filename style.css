@@ -1,0 +1,209 @@
+/* General Styles */
+body {
+  font-family: "rubik", sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #121212; /* Dark background */
+  color: #ffffff; /* White text */
+  overflow: hidden; /* Prevent body scrolling */
+  overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.5); 
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1; 
+}
+
+/* Optional: You can customize it further for the scrollbar behavior */
+::-webkit-scrollbar:hover {
+  background-color: rgba(0, 0, 0, 0.7); /* Darker thumb on hover */
+}
+
+
+
+/* Header */
+header {
+  background-color: #1db954;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+}
+
+header h1 {
+  font-size: 2rem; 
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Main Content */
+main {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+  background-color: #181818; /* Dark background */
+}
+
+/* Surah Selection */
+section.bg-gray-800 {
+  background-color: #282828; /* Dark gray */
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+  margin-bottom: 1.5rem;
+  padding: 1.5rem;
+}
+
+section.bg-gray-800 label {
+  color: #ffffff; /* White text */
+  font-size: 1.125rem; /* 18px */
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+section.bg-gray-800 select {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #404040; /* Darker gray */
+  border: 1px solid #555555; /* Gray border */
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  transition: border-color 0.3s;
+}
+
+section.bg-gray-800 select:focus {
+  border-color: #1db954; /* Spotify green */
+  outline: none;
+}
+
+/* Lyrics Section */
+section.bg-gray-800:last-child {
+  background-color: #282828; /* Dark gray */
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+  padding: 1.5rem;
+}
+
+section.bg-gray-800 h2 {
+  font-size: 1.5rem; /* 24px */
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+#quran {
+  font-family: "rubik";
+  font-size: 1.125rem; /* 18px */
+  line-height: 1.75;
+  color: #ffffff;
+  max-height: 60vh;
+  overflow-y: auto; /* Scrollable lyrics area */
+  scroll-behavior: smooth;
+  padding-right: 8px; /* Space for scrollbar */
+}
+
+/* Audio Player */
+footer {
+  background-color: #181818; /* Dark gray */
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+
+
+footer h1 {
+  font-size: 1.25rem; /* 20px */
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #ffffff;
+}
+
+#audio-loading {
+  padding: 10px;
+  color: #b3b3b3; 
+  display: none; 
+}
+
+audio {
+  width: 100%;
+  margin-top: 1rem;
+  background-color: transparent; 
+  border-radius: 8px;
+  padding: 0.5rem;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #555555; /* Gray */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #1db954; /* Spotify green */
+}
+.surah-info {
+  transition: opacity 0.3s ease;
+}
+
+/* Surah Selection and Translation Section */
+section.bg-gray-800 {
+  background-color: #282828; /* Dark gray */
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+  margin-bottom: 1.5rem;
+  padding: 1.5rem;
+}
+
+/* Individual Boxes */
+section.bg-gray-800 .bg-gray-700 {
+  background-color: #333333; /* Slightly lighter gray */
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Labels */
+section.bg-gray-800 label {
+  color: #ffffff; /* White text */
+  font-size: 1.125rem; /* 18px */
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+/* Dropdowns */
+section.bg-gray-800 select {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #404040; /* Darker gray */
+  border: 1px solid #555555; /* Gray border */
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+section.bg-gray-800 select:focus {
+  border-color: #1db954; /* Spotify green */
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(29, 185, 84, 0.2); /* Focus ring */
+}

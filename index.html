@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Read and listen to the Holy Quran online with translations in multiple languages.">
+  <meta name="keywords" content="Quran, Holy Quran, Quran online, Quran translations">
+  <meta name="author" content="Imran Shiundu">
+  <meta property="og:title" content="Al-Quran">
+  <meta property="og:description" content="Read and listen to the Holy Quran online with translations in multiple languages.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://example.com/al-quran">
+  <meta property="og:image" content="https://t3.ftcdn.net/jpg/05/68/99/80/360_F_568998040_m42feFA9RajqmuR5DTlWwox44fxE3MOi.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Al-Quran">
+  <meta name="twitter:description" content="Read and listen to the Holy Quran online with translations in multiple languages.">
+  <meta name="twitter:image" content="https://t3.ftcdn.net/jpg/05/68/99/80/360_F_568998040_m42feFA9RajqmuR5DTlWwox44fxE3MOi.jpg">
+  
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+
+  <!-- Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/081fda0490.js" crossorigin="anonymous"></script>
+  <link rel="shortcut icon" href="assist/quran.png" type="image/x-icon">
+  <title>Al-Quran</title>
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen bg-gray-900 text-white">
+  <!-- Header -->
+<header class="bg-gray-800 py-6 shadow-lg">
+  <div class="container mx-auto flex flex-col justify-center items-center px-6">
+    <h1 class="text-4xl font-bold text-white mb-2">Maqra</h1>
+    <p class="text-lg text-gray-300 italic">Explore, Recite, Understand, Reflect, Connect.</p>
+  </div>
+</header>
+
+
+  <!-- Main Content -->
+  <main class="flex-1 overflow-y-auto p-6">
+   <!-- Surah Selection and Translation -->
+<section class="bg-gray-800 p-6 rounded-lg shadow-md mb-6">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Search Surah Box -->
+    <div class="bg-gray-700 p-4 rounded-lg shadow-sm">
+      <label class="block text-lg font-semibold mb-2">Select Surah:</label>
+      <select id="surah-list" class="w-full p-2 bg-gray-600 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <!-- Options will be populated dynamically -->
+      </select>
+    </div>
+
+    <!-- Translation Box -->
+    <div class="bg-gray-700 p-4 rounded-lg shadow-sm">
+      <label class="block text-lg font-semibold mb-2">Translation:</label>
+      <select id="language" class="w-full p-2 bg-gray-600 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <option value="arabic">Arabic</option>
+        <option value="english">English</option>
+        <option value="swahili">Swahili (Coming Soon)</option>
+      </select>
+    </div>
+  </div>
+</section>
+
+<style>
+
+body {
+  overflow: hidden; 
+}
+
+
+#quran {
+  overflow-y: auto; 
+  max-height: 60vh; 
+}
+
+
+#quran::-webkit-scrollbar {
+  width: 8px;
+}
+
+#quran::-webkit-scrollbar-thumb {
+  background: #555; 
+  border-radius: 4px;
+}
+
+#quran::-webkit-scrollbar-thumb:hover {
+  background: #1db954; 
+}
+
+
+.audio-player {
+  border-radius: 10px;        
+  background-color: transparent;  
+  border: 1px solid #444;   
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+}
+
+</style>
+
+    <!-- Lyrics Section -->
+    <section class="bg-gray-800 p-6 rounded-lg shadow-md">
+      <h2 class="text-2xl font-bold mb-4">Surah Lyrics</h2>
+      <div id="quran" class="text-lg leading-relaxed max-h-[60vh] overflow-y-auto">
+        <!-- Lyrics will be displayed here -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Audio Player -->
+<footer class="bg-gray-800 py-4 shadow-lg fixed bottom-0 w-full">
+  <div class="container mx-auto px-4">
+    <div class="w-full mx-auto flex flex-col justify-center items-center">
+      <h1 class="font-bold text-lg mb-2 text-white">Surah Audio</h1>
+      <div id="audio-loading" class="hidden text-gray-400">Loading Surah, please wait...</div>
+
+<div class="flex justify-center items-center">
+  <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+</div>
+      <audio id="audio-player" class="audio-player w-full sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-1/3" controls>
+        Your browser does not support the audio element.
+      </audio>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+  <script>
+    // Auto-Scroll Lyrics
+    const quran = document.getElementById("quran");
+    const audioPlayer = document.getElementById("audio-player");
+
+    audioPlayer.addEventListener("timeupdate", () => {
+      const currentTime = audioPlayer.currentTime;
+      const duration = audioPlayer.duration;
+      const scrollPosition = (currentTime / duration) * quran.scrollHeight;
+      quran.scrollTop = scrollPosition;
+    });
+
+    // Load Surah List
+    fetch("https://api.alquran.cloud/v1/surah")
+      .then((response) => response.json())
+      .then((data) => {
+        const surahs = data.data;
+        const surahList = document.getElementById("surah-list");
+        surahs.forEach((surah) => {
+          const option = document.createElement("option");
+          option.value = surah.number;
+          option.text = `${surah.number}. ${surah.englishName} (${surah.englishNameTranslation})`;
+          surahList.appendChild(option);
+        });
+      })
+      .catch((error) => {
+        console.error("Error loading Surah list:", error);
+        alert("Error loading Surah list. Please try again later.");
+      });
+
+    // On Surah Change, Load Surah
+    const surahList = document.getElementById("surah-list");
+    const languageList = document.getElementById("language");
+
+    surahList.addEventListener("change", () => {
+      const surahNumber = surahList.value;
+      const selectedLanguage = languageList.value;
+      loadSurah(surahNumber, selectedLanguage);
+    });
+
+    // On Language Change, Update Translation
+    languageList.addEventListener("change", () => {
+      const surahNumber = surahList.value;
+      const selectedLanguage = languageList.value;
+      loadSurah(surahNumber, selectedLanguage);
+    });
+
+    // Function to Load Surah
+    function loadSurah(surahNumber, language) {
+      const editions = {
+        arabic: "quran-simple",
+        english: "en.sahih",
+        swahili: "sw.ahmedali", // Swahili translation
+      };
+
+      const edition = editions[language];
+
+      if (!edition) {
+        console.error("Invalid language selected.");
+        return;
+      }
+
+      // Show loading state
+      document.getElementById("audio-loading").style.display = "block";
+      quran.innerHTML = "<p>Loading...</p>";
+
+      // Fetch Surah data
+      fetch(`https://api.alquran.cloud/v1/surah/${surahNumber}/editions/${edition}`)
+        .then((response) => response.json())
+        .then((data) => {
+          const surah = data.data[0];
+          let surahHTML = "";
+          surah.ayahs.forEach((ayah) => {
+            if (ayah.sajda) {
+              surahHTML += `
+                <h1 class="text-xl font-extrabold">${ayah.numberInSurah} [Sajda]</h1>
+                <p class="text-center mt-2 mb-4 font-bold">${ayah.text}</p>
+              `;
+            } else {
+              surahHTML += `
+                <h1 class="text-xl font-extrabold">${ayah.numberInSurah}</h1>
+                <p class="text-center mt-2 mb-4 font-bold">${ayah.text}</p>
+              `;
+            }
+          });
+          quran.innerHTML = surahHTML;
+
+          // Update audio source
+          audioPlayer.src = `https://github.com/Treposting/Surah-API/blob/main/Surah/${surahNumber}.mp3?raw=true`;
+          audioPlayer.play(); // Auto-play the audio
+          document.getElementById("audio-loading").style.display = "none";
+        })
+        .catch((error) => {
+          console.error("Error loading Surah:", error);
+          alert("Error loading Surah. Please try again later.");
+          document.getElementById("audio-loading").style.display = "none";
+        });
+    }
+
+    // Load Default Surah on Page Load
+    window.addEventListener("load", () => {
+      languageList.value = "arabic"; // Default to Arabic
+      loadSurah(1, "arabic"); // Load Surah 1 in Arabic
+    });
+  </script>
+</body>
+</html>
