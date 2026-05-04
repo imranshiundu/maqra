@@ -1,0 +1,31 @@
+{
+  "name": "maqra",
+  "version": "1.1.0",
+  "description": "Maqra Quran reading and listening platform with a backend API, caching, search, bookmarks, and reading progress.",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "check": "node --check server.js"
+  },
+  "keywords": [
+    "quran",
+    "maqra",
+    "reading",
+    "recitation",
+    "translations"
+  ],
+  "author": "Imran Shiundu",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0"
+  }
+}
