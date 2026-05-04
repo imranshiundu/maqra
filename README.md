@@ -1,144 +1,109 @@
 # Maqra
 
-**Maqra** is a Quran reading and listening platform for reading, reciting, searching, bookmarking, and continuing Quran study with a clean web experience.
+**Maqra** is a modern Quran reading and listening web app designed to run for free on GitHub Pages.
 
-The project now includes a real backend API instead of relying only on direct browser calls to external Quran services.
+Live site:
 
----
+```txt
+https://imranshiundu.github.io/maqra/
+```
 
-## What Maqra does
+Maqra does not require Vercel, Netlify, a paid server, or a database. It is a static frontend that uses public Quran APIs and stores personal user data privately in the browser.
 
-- Read Quran Surahs.
-- Switch between Arabic, English, and Swahili text.
-- Listen to Surah audio.
-- Search ayahs by text.
+## Features
+
+- Read all 114 Surahs.
+- Arabic text with translation side by side.
+- Arabic-only and translation-only reading modes.
+- Surah audio playback.
+- Search inside the current Surah translation.
 - Copy ayahs.
-- Bookmark a Surah.
+- Bookmark Surahs.
 - Save and restore reading progress.
-- Load Quran data through a backend cache layer.
+- Private reflection notes per Surah and translation.
+- Light and dark theme.
+- Adjustable reading font size.
+- Browser-local cache to reduce repeat API calls.
+- Responsive desktop and mobile layout.
 
----
+## Why it is static
 
-## How the system works
-
-```txt
-Frontend browser page
-    ↓
-Maqra Express backend
-    ↓
-Al-Quran Cloud API + Surah audio source
-```
-
-The frontend does not need to know the full upstream API structure anymore. It asks Maqra's own backend for clean data.
-
-This gives the project:
-
-- Better error handling.
-- Input validation.
-- Memory caching.
-- Cleaner frontend code.
-- A future-ready API for mobile apps or desktop apps.
-
-Read the backend explanation here:
+The project is hosted on GitHub Pages, so it cannot run a Node.js backend.
 
 ```txt
-docs/backend.md
+GitHub Pages static frontend
+    ↓
+Public Quran API
+    ↓
+Browser localStorage for personal data
 ```
 
----
+This keeps hosting free and simple.
 
-## Backend routes
+## Data sources
 
-| Route | Purpose |
-| --- | --- |
-| `GET /api/health` | Check backend health |
-| `GET /api/editions` | List supported language editions |
-| `GET /api/surahs` | List all Surahs |
-| `GET /api/surahs/:surahNumber?language=arabic` | Load one Surah |
-| `GET /api/search?q=mercy&language=english` | Search ayahs |
-| `POST /api/progress` | Validate progress payloads for future sync |
+- Quran text and translations: Al-Quran Cloud API.
+- Audio: public Surah MP3 files from the Surah API GitHub repository.
 
----
+## Local development
 
-## Tech stack
-
-- **Frontend:** HTML, Tailwind CSS, JavaScript.
-- **Backend:** Node.js, Express.
-- **Security and performance:** Helmet, CORS, compression, request logging, memory cache.
-- **Quran data:** Al-Quran Cloud API.
-- **Audio:** Surah MP3 source from the Surah API GitHub repository.
-
----
-
-## Local installation
-
-### 1. Clone the repository
+No build step is required.
 
 ```bash
 git clone https://github.com/imranshiundu/maqra.git
 cd maqra
-```
-
-### 2. Install dependencies
-
-```bash
-npm install
-```
-
-### 3. Run development server
-
-```bash
-npm run dev
+python3 -m http.server 8000
 ```
 
 Open:
 
 ```txt
-http://localhost:3000
+http://localhost:8000
 ```
 
----
+## GitHub Pages deployment
 
-## Production run
+Use GitHub repository settings:
 
-```bash
-npm install --omit=dev
-npm start
+```txt
+Settings → Pages → Deploy from branch → main → /root
 ```
 
-Optional environment values:
+After merging changes to `main`, the site updates at:
 
-```bash
-PORT=3000
-NODE_ENV=production
-CACHE_TTL_MS=43200000
-CORS_ORIGIN=https://your-domain.com
+```txt
+https://imranshiundu.github.io/maqra/
 ```
 
----
+## Project structure
 
-## Important implementation notes
+```txt
+index.html             Main static app shell
+styles.css             Modern responsive interface
+js/main.js             Quran loading, search, bookmarks, notes, progress
+manifest.webmanifest   Static app manifest
+assist/                Icons and image assets
+```
 
-- Reading progress is currently saved in the browser with `localStorage`.
-- Bookmarks are currently saved in the browser with `localStorage`.
-- `/api/progress` validates progress now so a real database can be added later without changing the frontend contract too much.
-- Cache is in memory, which is good enough for the first backend version. Redis or a database cache should come later for production scale.
+## Current limitations
 
----
+Because Maqra is intentionally free-hosted and static:
 
-## Next serious upgrades
+- User progress is saved per browser/device only.
+- Bookmarks and notes do not sync across devices.
+- Search focuses on the active Surah to keep the free static version fast.
+- If the public Quran API is unavailable, fresh uncached data may not load.
 
-- Add user accounts for synced progress.
-- Add reciter selection.
-- Add tafsir mode.
-- Add memorization mode with ayah repeat.
-- Add reading streaks.
-- Add offline support.
-- Add database persistence for bookmarks, notes, and progress.
-- Add tests for backend routes.
+## Future upgrades that still fit GitHub Pages
 
----
+- Offline-first service worker.
+- Reciter selection.
+- Juz and page navigation.
+- Recently read Surahs.
+- Export/import notes as JSON.
+- Better mobile bottom navigation.
+- Tafsir links using public static sources.
 
 ## License
 
-Maqra is released under the MIT License.
+MIT License.
