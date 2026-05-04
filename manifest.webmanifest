@@ -1,0 +1,16 @@
+{
+  "name": "Maqra Quran Reader",
+  "short_name": "Maqra",
+  "description": "A modern static Quran reader for GitHub Pages.",
+  "start_url": "/maqra/",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "assist/quran.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
