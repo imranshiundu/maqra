@@ -1,101 +1,144 @@
-# **Maqra: Free Quran Reading and Listening Platform**
+# Maqra
 
-Welcome to **Maqra**, an open-source Quran reading and listening platform designed to help you connect with the words of Allah. Whether you're reading the Quran or listening to its beautiful recitations, Maqra provides a seamless and modern experience. Fork it, contribute, and spread the word of Allah!
+**Maqra** is a Quran reading and listening platform for reading, reciting, searching, bookmarking, and continuing Quran study with a clean web experience.
 
----
-
-## **Features**
-- **Read the Quran**: Access the entire Quran with translations in multiple languages.
-- **Listen to Surahs**: Play audio recitations of any Surah with ease.
-- **Dynamic Translations**: Switch between Arabic, English, and Swahili translations (more languages coming soon).
-- **Auto-Scrolling Lyrics**: The lyrics scroll automatically as the audio plays.
-- **Modern Design**: A clean, responsive, and user-friendly interface.
-- **Open Source**: Fork the project, contribute, and customize it as you wish.
+The project now includes a real backend API instead of relying only on direct browser calls to external Quran services.
 
 ---
 
----
+## What Maqra does
 
-## **Technologies Used**
-- **Frontend**: HTML, CSS (Tailwind CSS), JavaScript
-- **APIs**: [Al-Quran Cloud API](https://alquran.cloud/api) for Quran data and translations.
-- **Audio**: Audio files hosted on [GitHub](https://github.com/Treposting/Surah-API).
-
----
-
-## **How to Use**
-1. **Select a Surah**: Choose a Surah from the dropdown menu.
-2. **Choose a Translation**: Select your preferred language for translation.
-3. **Read or Listen**: Read the Quranic text or listen to the audio recitation.
-4. **Auto-Scroll**: The lyrics will scroll automatically as the audio plays.
+- Read Quran Surahs.
+- Switch between Arabic, English, and Swahili text.
+- Listen to Surah audio.
+- Search ayahs by text.
+- Copy ayahs.
+- Bookmark a Surah.
+- Save and restore reading progress.
+- Load Quran data through a backend cache layer.
 
 ---
 
-## **Installation**
-To run Maqra locally, follow these steps:
+## How the system works
 
-1. **Clone the Repository**:
-   ```bash
-   https://github.com/imranshiundu/maqra.git
-   cd maqra
-   ```
+```txt
+Frontend browser page
+    ↓
+Maqra Express backend
+    ↓
+Al-Quran Cloud API + Surah audio source
+```
 
-2. **Open the Project**:
-   - Open the `index.html` file in your browser.
+The frontend does not need to know the full upstream API structure anymore. It asks Maqra's own backend for clean data.
 
-3. **Customize**:
-   - Modify the code as needed. Add new features, improve the design, or integrate additional APIs.
+This gives the project:
 
----
+- Better error handling.
+- Input validation.
+- Memory caching.
+- Cleaner frontend code.
+- A future-ready API for mobile apps or desktop apps.
 
-## **Contributing**
-Maqra is an open-source project, and contributions are welcome! Here's how you can contribute:
+Read the backend explanation here:
 
-1. **Fork the Repository**: Fork the project to your GitHub account.
-2. **Create a Branch**: Create a new branch for your feature or bug fix.
-3. **Make Changes**: Implement your changes and test them thoroughly.
-4. **Submit a Pull Request**: Open a pull request with a detailed description of your changes.
-
----
-
-## **Spread the Word**
-Help spread the word of Allah by sharing Maqra with others. Whether you're a developer, designer, or Quran enthusiast, your contributions can make a difference.
-
-- **Star the Repository**: Show your support by starring the project on GitHub.
-- **Share on Social Media**: Share Maqra with your friends and family.
-- **Contribute**: Fork the project and add new features or improvements.
+```txt
+docs/backend.md
+```
 
 ---
 
-## **License**
-Maqra is released under the **MIT License**. Feel free to use, modify, and distribute the code as you see fit.
+## Backend routes
+
+| Route | Purpose |
+| --- | --- |
+| `GET /api/health` | Check backend health |
+| `GET /api/editions` | List supported language editions |
+| `GET /api/surahs` | List all Surahs |
+| `GET /api/surahs/:surahNumber?language=arabic` | Load one Surah |
+| `GET /api/search?q=mercy&language=english` | Search ayahs |
+| `POST /api/progress` | Validate progress payloads for future sync |
 
 ---
 
-## **Acknowledgments**
-- **Al-Quran Cloud API**: For providing Quranic data and translations.
-- **Tailwind CSS**: For making the design process smooth and efficient.
-- **Font Awesome**: For providing beautiful icons.
+## Tech stack
+
+- **Frontend:** HTML, Tailwind CSS, JavaScript.
+- **Backend:** Node.js, Express.
+- **Security and performance:** Helmet, CORS, compression, request logging, memory cache.
+- **Quran data:** Al-Quran Cloud API.
+- **Audio:** Surah MP3 source from the Surah API GitHub repository.
 
 ---
 
-## **Contact**
-If you have any questions, suggestions, or feedback, feel free to reach out:
+## Local installation
 
-- **Email**: imranshiundu@gmail.com
-- **GitHub**: (https://github.com/imranshiundu)(#)
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/imranshiundu/maqra.git
+cd maqra
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Run development server
+
+```bash
+npm run dev
+```
+
+Open:
+
+```txt
+http://localhost:3000
+```
 
 ---
 
-## **Support the Project**
-If you find Maqra useful, consider supporting the project by:
-- **Contributing**: Fork the repository and submit pull requests.
-- **Spreading the Word**: Share Maqra with others to help spread the message of the Quran.
+## Production run
+
+```bash
+npm install --omit=dev
+npm start
+```
+
+Optional environment values:
+
+```bash
+PORT=3000
+NODE_ENV=production
+CACHE_TTL_MS=43200000
+CORS_ORIGIN=https://your-domain.com
+```
 
 ---
 
-**May Allah bless your efforts and guide you in your journey. Together, let's make the Quran accessible to everyone!** 
+## Important implementation notes
+
+- Reading progress is currently saved in the browser with `localStorage`.
+- Bookmarks are currently saved in the browser with `localStorage`.
+- `/api/progress` validates progress now so a real database can be added later without changing the frontend contract too much.
+- Cache is in memory, which is good enough for the first backend version. Redis or a database cache should come later for production scale.
 
 ---
 
-**Maqra**: Read. Listen. Reflect. Spread the Word of Allah.
+## Next serious upgrades
+
+- Add user accounts for synced progress.
+- Add reciter selection.
+- Add tafsir mode.
+- Add memorization mode with ayah repeat.
+- Add reading streaks.
+- Add offline support.
+- Add database persistence for bookmarks, notes, and progress.
+- Add tests for backend routes.
+
+---
+
+## License
+
+Maqra is released under the MIT License.
