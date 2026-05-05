@@ -8,11 +8,11 @@ Live site:
 https://imranshiundu.github.io/maqra/
 ```
 
-It uses a static frontend, public Quran APIs, local downloads and browser storage. No Vercel, no Netlify, no Node server, no paid backend.
+It uses a static frontend, public Quran APIs, local downloads, a service worker and browser storage. No Vercel, no Netlify, no Node server, no paid backend.
 
 ## App sections
 
-Maqra uses one HTML app shell. The navigation changes sections without reloading the page, so the audio player stays alive.
+Maqra uses one HTML app shell. Navigation changes sections without reloading the page, so the audio player stays alive.
 
 ```txt
 Reader       Focused ayah + translation stage
@@ -20,6 +20,7 @@ Listen       Surah list for direct audio playback
 Read Along   Silent human-speed reading mode with optional soft rhythm
 Search       Translation search
 Library      Bookmarks and saved progress
+Storage      Offline data, backups and cache controls
 Notes        Private local notes
 ```
 
@@ -27,7 +28,10 @@ Notes        Private local notes
 
 - Persistent global player across Maqra sections.
 - Listen page with all Surahs selectable for playback.
+- Playback speed control.
+- Repeat Surah and auto-next Surah controls.
 - One-screen Quran reader on desktop.
+- Focus Mode that hides navigation and controls.
 - Moving ayah view while audio plays.
 - Previous, Next and range controls for ayah movement.
 - Read Along page for recitation practice without recitation audio.
@@ -37,16 +41,19 @@ Notes        Private local notes
 - Arabic-only and translation-only modes.
 - Translation selector loaded from available API editions.
 - Swahili fallback handling when a translation source fails.
-- Download selected Surah as JSON with Arabic and selected translation.
-- Download whole Quran text as JSON with Arabic and selected translation.
+- Download selected Surah as JSON, TXT or Markdown.
+- Download whole Quran text as JSON, TXT or Markdown.
 - Save selected Surah locally for about 45 days.
-- Attempt browser cache of Quran audio for local listening, subject to browser storage limits.
+- Best-effort browser cache for Quran audio.
+- Storage manager for offline/cache controls.
+- Export/import user data: progress, bookmarks, settings and notes.
 - Bookmarks.
 - Saved reading position.
 - Local private notes.
 - Adjustable reading font size.
 - Lightweight black-and-white interface.
 - Browser-local cache to reduce repeat API calls.
+- Service worker app-shell cache for faster repeat loads.
 
 ## Why the player used to stop
 
@@ -75,24 +82,24 @@ GitHub Pages frontend
     ↓
 Public no-key Quran APIs
     ↓
-Browser cache / localStorage / downloads
+Service worker + browser cache + localStorage + downloads
 ```
 
 If private API keys are needed later, Maqra needs a backend proxy or serverless worker. That is intentionally not used in this free GitHub Pages version.
 
 ## Offline and download behavior
 
-Text downloads are reliable because JSON is small enough for normal browser downloads.
+Text downloads are reliable because JSON, TXT and Markdown are normal browser downloads.
 
-Audio is different. Full Quran MP3 caching may be blocked by browser storage limits, mobile storage limits, CORS behavior or network failures. Maqra therefore treats full audio caching as a best-effort browser cache feature.
+Audio is different. Full Quran MP3 caching may be blocked by browser storage limits, mobile storage limits, CORS behavior or network failures. Maqra treats full audio caching as best-effort browser cache behavior.
 
-Recommended future improvement:
+The Storage section lets users:
 
-- add per-Surah audio download/cache controls
-- show cache size and expiry
-- allow users to clear cache manually
-- add a service worker for better offline control
-- add exact timestamped ayah audio sync where metadata is available
+- view approximate local Maqra data size
+- see saved offline Surah count
+- export/import user data
+- clear offline Quran data
+- clear audio cache
 
 ## Data sources
 
@@ -125,13 +132,11 @@ After merging to `main`, GitHub Pages updates the live site.
 ## Future static-friendly upgrades
 
 - Real timestamped ayah-by-ayah audio sync.
-- Service worker for stronger offline behavior.
 - Per-reciter selection with verified public audio endpoints.
 - Juz navigation.
 - Recently read list.
-- Export/import notes as JSON.
 - Tafsir links.
-- Storage manager page.
+- Better offline audio size reporting where browser APIs allow it.
 
 ## License
 
