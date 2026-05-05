@@ -1,6 +1,6 @@
 # Maqra
 
-**Maqra** is a quiet one-screen Quran reader built for GitHub Pages.
+**Maqra** is a quiet persistent Quran reader built for GitHub Pages.
 
 Live site:
 
@@ -10,25 +10,33 @@ https://imranshiundu.github.io/maqra/
 
 It uses a static frontend, public Quran APIs, local downloads and browser storage. No Vercel, no Netlify, no Node server, no paid backend.
 
-## Pages
+## App sections
+
+Maqra uses one HTML app shell. The navigation changes sections without reloading the page, so the audio player stays alive.
 
 ```txt
-index.html      One-screen reader
-search.html     Search
-library.html    Bookmarks and saved progress
-notes.html      Private local notes
+Reader       Focused ayah + translation stage
+Listen       Surah list for direct audio playback
+Read Along   Silent human-speed reading mode with optional soft rhythm
+Search       Translation search
+Library      Bookmarks and saved progress
+Notes        Private local notes
 ```
 
 ## Features
 
+- Persistent global player across Maqra sections.
+- Listen page with all Surahs selectable for playback.
 - One-screen Quran reader on desktop.
 - Moving ayah view while audio plays.
 - Previous, Next and range controls for ayah movement.
+- Read Along page for recitation practice without recitation audio.
+- Optional generated soft rhythm for read-along focus.
+- Adjustable read-along speed.
 - Arabic with selected translation.
 - Arabic-only and translation-only modes.
 - Translation selector loaded from available API editions.
 - Swahili fallback handling when a translation source fails.
-- Inline Surah audio.
 - Download selected Surah as JSON with Arabic and selected translation.
 - Download whole Quran text as JSON with Arabic and selected translation.
 - Save selected Surah locally for about 45 days.
@@ -40,21 +48,37 @@ notes.html      Private local notes
 - Lightweight black-and-white interface.
 - Browser-local cache to reduce repeat API calls.
 
+## Why the player used to stop
+
+The old version used real page navigation. Moving from Reader to Library loaded a new HTML document, so the browser destroyed the audio element.
+
+The fix is an app-shell model:
+
+```txt
+index.html stays mounted
+    ↓
+hash navigation changes visible section
+    ↓
+global audio player remains mounted
+    ↓
+playback continues
+```
+
 ## Important static hosting note
 
-Maqra is hosted on GitHub Pages. Public frontend apps cannot safely hide API keys. Any API key placed in this repository would be visible to users.
+Maqra is hosted on GitHub Pages. Public frontend apps cannot safely hide API keys. Any API key placed in this repository would be visible to users and could be abused.
 
 The safe architecture is:
 
 ```txt
 GitHub Pages frontend
     ↓
-Public Quran APIs
+Public no-key Quran APIs
     ↓
 Browser cache / localStorage / downloads
 ```
 
-If private API keys are needed later, Maqra will need a backend proxy or serverless worker. That is intentionally not used in this free GitHub Pages version.
+If private API keys are needed later, Maqra needs a backend proxy or serverless worker. That is intentionally not used in this free GitHub Pages version.
 
 ## Offline and download behavior
 
@@ -68,24 +92,13 @@ Recommended future improvement:
 - show cache size and expiry
 - allow users to clear cache manually
 - add a service worker for better offline control
-
-## Design direction
-
-Maqra should feel like a reading and listening tool, not a dashboard.
-
-The interface uses:
-
-- black and white only
-- small, light typography
-- thin separators instead of heavy cards
-- one-screen desktop reader
-- no fixed audio overlay
-- quiet spacing around Quran text
+- add exact timestamped ayah audio sync where metadata is available
 
 ## Data sources
 
 - Quran text and translations: Al-Quran Cloud API.
 - Audio: public Surah MP3 files from the Surah API GitHub repository.
+- Read-along rhythm: generated locally with the Web Audio API. No external sound file is required.
 
 ## Local development
 
@@ -113,7 +126,7 @@ After merging to `main`, GitHub Pages updates the live site.
 
 - Real timestamped ayah-by-ayah audio sync.
 - Service worker for stronger offline behavior.
-- Per-reciter selection.
+- Per-reciter selection with verified public audio endpoints.
 - Juz navigation.
 - Recently read list.
 - Export/import notes as JSON.
