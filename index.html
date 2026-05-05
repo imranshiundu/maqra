@@ -2,156 +2,58 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Maqra is a modern Quran reading and listening web app for GitHub Pages with translations, bookmarks, notes, search, and local reading progress.">
-  <meta name="keywords" content="Maqra, Quran, Quran reader, Quran audio, Quran translation, Quran search">
-  <meta name="author" content="Imran Shiundu">
-  <meta property="og:title" content="Maqra">
-  <meta property="og:description" content="Read, listen, search, bookmark, and reflect on the Quran from a clean static web app.">
-  <meta property="og:type" content="website">
+  <meta name="description" content="Maqra is a quiet, minimal Quran reader for GitHub Pages with Quran text, translations, audio, search, bookmarks and private notes.">
+  <meta property="og:title" content="Maqra — Quran Reader">
+  <meta property="og:description" content="A simple black and white Quran reader for reading, listening and reflection.">
   <meta property="og:url" content="https://imranshiundu.github.io/maqra/">
-  <meta name="theme-color" content="#0f172a">
+  <meta name="theme-color" content="#ffffff">
   <link rel="preconnect" href="https://api.alquran.cloud">
   <link rel="preconnect" href="https://raw.githubusercontent.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="shortcut icon" href="assist/quran.png" type="image/x-icon">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="styles.css">
   <title>Maqra — Quran Reader</title>
 </head>
-<body>
-  <div class="app-shell">
-    <aside class="sidebar" aria-label="Maqra navigation">
-      <a class="brand" href="#top" aria-label="Maqra home">
-        <span class="brand-mark">M</span>
-        <span>
-          <strong>Maqra</strong>
-          <small>Read. Listen. Reflect.</small>
-        </span>
-      </a>
+<body data-page="reader">
+  <header class="site-header">
+    <a class="wordmark" href="./">Maqra</a>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a class="active" href="./">Reader</a>
+      <a href="search.html">Search</a>
+      <a href="library.html">Library</a>
+      <a href="notes.html">Notes</a>
+    </nav>
+  </header>
 
-      <nav class="nav-list">
-        <a href="#reader" class="nav-link active">Reader</a>
-        <a href="#search" class="nav-link">Search</a>
-        <a href="#library" class="nav-link">Library</a>
-        <a href="#notes" class="nav-link">Notes</a>
-      </nav>
+  <main class="page reader-page">
+    <section class="intro">
+      <p class="kicker">Quran reader</p>
+      <h1>Read quietly. Listen when needed. Keep your place.</h1>
+      <p class="lead">A free static Quran reader for GitHub Pages. No account, no backend, no heavy interface.</p>
+    </section>
 
-      <div class="sidebar-card">
-        <span class="eyebrow">Current session</span>
-        <strong id="session-surah">Loading...</strong>
-        <small id="session-meta">Preparing reader</small>
-      </div>
+    <section class="controls" aria-label="Reader controls">
+      <label>Surah<select id="surah-list"></select></label>
+      <label>Translation<select id="translation-list"><option value="en.sahih">English — Sahih International</option><option value="sw.ahmedali">Swahili — Ahmed Ali</option><option value="ur.jalandhry">Urdu — Jalandhry</option><option value="fr.hamidullah">French — Hamidullah</option><option value="es.asad">Spanish — Muhammad Asad</option></select></label>
+      <label>View<select id="view-mode"><option value="parallel">Arabic + translation</option><option value="arabic">Arabic only</option><option value="translation">Translation only</option></select></label>
+      <div class="actions"><button id="font-minus" type="button">A−</button><button id="font-plus" type="button">A+</button><button id="bookmark-surah" type="button">Bookmark</button><button id="save-progress" type="button">Save place</button><button id="continue-reading" type="button">Continue</button></div>
+    </section>
 
-      <div class="sidebar-card compact">
-        <span class="eyebrow">Storage</span>
-        <small>Bookmarks, notes, theme, and progress are saved on this browser.</small>
-      </div>
-    </aside>
+    <section class="surah-head">
+      <div><p id="revelation-type" class="kicker">Loading</p><h2 id="surah-title">Maqra Reader</h2><p id="surah-subtitle" class="muted">Preparing reader.</p></div>
+      <p id="status-text" class="status">Starting Maqra...</p>
+    </section>
 
-    <main id="top" class="main-content">
-      <section class="hero-panel">
-        <div>
-          <span class="eyebrow">Static GitHub Pages edition</span>
-          <h1>A calmer, modern Quran reading system.</h1>
-          <p>Maqra works as a serious static web app: no paid backend, no Vercel, no Netlify, just GitHub Pages, public Quran APIs, and private local storage on the user’s device.</p>
-          <div class="hero-actions">
-            <a href="#reader" class="button primary">Start reading</a>
-            <button id="continue-reading" class="button ghost" type="button">Continue saved progress</button>
-          </div>
-        </div>
-        <div class="hero-stats" aria-label="Maqra capabilities">
-          <div><strong>114</strong><span>Surahs</span></div>
-          <div><strong>3</strong><span>Text modes</span></div>
-          <div><strong>Local</strong><span>Bookmarks</span></div>
-          <div><strong>Free</strong><span>GitHub hosting</span></div>
-        </div>
-      </section>
+    <section class="audio-row" aria-label="Surah audio player"><div><strong id="audio-title">Surah Audio</strong><span id="audio-meta">Choose a Surah to load recitation.</span></div><audio id="audio-player" controls preload="metadata"></audio></section>
+    <div id="loading" class="loading">Loading Quran text...</div>
+    <section id="ayah-list" class="ayah-list" aria-live="polite"></section>
+  </main>
 
-      <section class="toolbar" aria-label="Reader controls">
-        <label><span>Surah</span><select id="surah-list"></select></label>
-        <label>
-          <span>Translation</span>
-          <select id="translation-list">
-            <option value="en.sahih">English — Sahih International</option>
-            <option value="sw.ahmedali">Swahili — Ahmed Ali</option>
-            <option value="ur.jalandhry">Urdu — Jalandhry</option>
-            <option value="fr.hamidullah">French — Hamidullah</option>
-            <option value="es.asad">Spanish — Muhammad Asad</option>
-          </select>
-        </label>
-        <label>
-          <span>View</span>
-          <select id="view-mode">
-            <option value="parallel">Arabic + translation</option>
-            <option value="arabic">Arabic only</option>
-            <option value="translation">Translation only</option>
-          </select>
-        </label>
-        <div class="toolbar-actions">
-          <button id="theme-toggle" class="button soft" type="button">Theme</button>
-          <button id="bookmark-surah" class="button soft" type="button">Bookmark</button>
-          <button id="save-progress" class="button soft" type="button">Save progress</button>
-        </div>
-      </section>
-
-      <section id="reader" class="reader-grid">
-        <article class="reader-panel">
-          <div class="reader-header">
-            <div>
-              <span class="eyebrow" id="revelation-type">Loading</span>
-              <h2 id="surah-title">Maqra Reader</h2>
-              <p id="surah-subtitle">Select a Surah to begin.</p>
-            </div>
-            <div class="reader-tools">
-              <button id="font-minus" class="icon-button" type="button" aria-label="Decrease font size">A−</button>
-              <button id="font-plus" class="icon-button" type="button" aria-label="Increase font size">A+</button>
-            </div>
-          </div>
-          <div id="loading" class="loading-card">Loading Quran text...</div>
-          <div id="ayah-list" class="ayah-list" aria-live="polite"></div>
-        </article>
-
-        <aside class="insight-panel" aria-label="Reading tools">
-          <section class="mini-card"><span class="eyebrow">Status</span><p id="status-text">Starting Maqra...</p></section>
-          <section id="search" class="mini-card">
-            <span class="eyebrow">Search Quran</span>
-            <div class="search-row">
-              <input id="search-input" type="search" placeholder="Search translation text...">
-              <button id="search-button" class="button primary small" type="button">Search</button>
-            </div>
-            <div id="search-results" class="result-list"></div>
-          </section>
-          <section id="library" class="mini-card">
-            <div class="section-title-row"><span class="eyebrow">Bookmarks</span><button id="clear-bookmarks" class="text-button" type="button">Clear</button></div>
-            <div id="bookmarks-list" class="result-list empty">No bookmarks yet.</div>
-          </section>
-          <section id="notes" class="mini-card">
-            <span class="eyebrow">Reflection note</span>
-            <textarea id="reflection-note" rows="7" placeholder="Write a private note for the current Surah..."></textarea>
-            <button id="save-note" class="button soft full" type="button">Save note</button>
-          </section>
-        </aside>
-      </section>
-    </main>
-  </div>
-
-  <footer class="audio-dock" aria-label="Surah audio player">
-    <div><strong id="audio-title">Surah Audio</strong><small id="audio-meta">Choose a Surah to load recitation.</small></div>
-    <audio id="audio-player" controls preload="metadata"></audio>
-  </footer>
-
-  <template id="ayah-template">
-    <article class="ayah-card">
-      <div class="ayah-topline"><span class="ayah-number"></span><div class="ayah-actions"><button class="text-button copy-ayah" type="button">Copy</button><button class="text-button jump-progress" type="button">Mark</button></div></div>
-      <p class="arabic-text"></p>
-      <p class="translation-text"></p>
-    </article>
-  </template>
-
+  <template id="ayah-template"><article class="ayah-card"><div class="ayah-topline"><span class="ayah-number"></span><span class="ayah-actions"><button class="copy-ayah" type="button">Copy</button><button class="jump-progress" type="button">Mark</button></span></div><p class="arabic-text"></p><p class="translation-text"></p></article></template>
   <script src="js/main.js"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 # Maqra
 
-**Maqra** is a modern Quran reading and listening web app designed to run for free on GitHub Pages.
+**Maqra** is a quiet, minimal Quran reader built for GitHub Pages.
 
 Live site:
 
@@ -8,37 +8,43 @@ Live site:
 https://imranshiundu.github.io/maqra/
 ```
 
-Maqra does not require Vercel, Netlify, a paid server, or a database. It is a static frontend that uses public Quran APIs and stores personal user data privately in the browser.
+It uses a static frontend, public Quran APIs, and browser storage. No Vercel, no Netlify, no Node server, no paid backend.
+
+## Pages
+
+```txt
+index.html      Reader
+search.html     Search
+library.html    Bookmarks and saved progress
+notes.html      Private local notes
+```
 
 ## Features
 
 - Read all 114 Surahs.
-- Arabic text with translation side by side.
-- Arabic-only and translation-only reading modes.
-- Surah audio playback.
-- Search inside the current Surah translation.
-- Copy ayahs.
-- Bookmark Surahs.
-- Save and restore reading progress.
-- Private reflection notes per Surah and translation.
-- Light and dark theme.
+- Arabic with translation.
+- Arabic-only and translation-only modes.
+- Inline Surah audio.
+- Quran search page.
+- Bookmarks.
+- Saved reading position.
+- Local private notes.
 - Adjustable reading font size.
+- Lightweight black-and-white interface.
 - Browser-local cache to reduce repeat API calls.
-- Responsive desktop and mobile layout.
 
-## Why it is static
+## Design direction
 
-The project is hosted on GitHub Pages, so it cannot run a Node.js backend.
+Maqra should feel like a reading tool, not a dashboard.
 
-```txt
-GitHub Pages static frontend
-    ↓
-Public Quran API
-    ↓
-Browser localStorage for personal data
-```
+The interface uses:
 
-This keeps hosting free and simple.
+- black and white only
+- small, light typography
+- thin separators instead of heavy cards
+- no fixed audio overlay
+- separate pages instead of one crowded screen
+- quiet spacing around the Quran text
 
 ## Data sources
 
@@ -46,8 +52,6 @@ This keeps hosting free and simple.
 - Audio: public Surah MP3 files from the Surah API GitHub repository.
 
 ## Local development
-
-No build step is required.
 
 ```bash
 git clone https://github.com/imranshiundu/maqra.git
@@ -63,46 +67,29 @@ http://localhost:8000
 
 ## GitHub Pages deployment
 
-Use GitHub repository settings:
-
 ```txt
 Settings → Pages → Deploy from branch → main → /root
 ```
 
-After merging changes to `main`, the site updates at:
+After merging to `main`, GitHub Pages updates the live site.
 
-```txt
-https://imranshiundu.github.io/maqra/
-```
+## Limitations
 
-## Project structure
+Because this is intentionally static and free-hosted:
 
-```txt
-index.html             Main static app shell
-styles.css             Modern responsive interface
-js/main.js             Quran loading, search, bookmarks, notes, progress
-manifest.webmanifest   Static app manifest
-assist/                Icons and image assets
-```
+- Notes, bookmarks, and progress stay on one browser/device.
+- No cross-device sync yet.
+- Search depends on public API availability.
+- Full offline mode is not implemented yet.
 
-## Current limitations
+## Future static-friendly upgrades
 
-Because Maqra is intentionally free-hosted and static:
-
-- User progress is saved per browser/device only.
-- Bookmarks and notes do not sync across devices.
-- Search focuses on the active Surah to keep the free static version fast.
-- If the public Quran API is unavailable, fresh uncached data may not load.
-
-## Future upgrades that still fit GitHub Pages
-
-- Offline-first service worker.
+- Offline service worker.
 - Reciter selection.
-- Juz and page navigation.
-- Recently read Surahs.
+- Juz navigation.
+- Recently read list.
 - Export/import notes as JSON.
-- Better mobile bottom navigation.
-- Tafsir links using public static sources.
+- Tafsir links.
 
 ## License
 
